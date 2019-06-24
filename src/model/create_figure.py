@@ -1,10 +1,11 @@
 import plotly.graph_objs as go
 import create_graph as cg
+import view.custom_objects as view_objs
 
-def create_layout(w=1000, h=1000, tit="Hello, world", xax=None, yax=None, annot=None, shps=None, axis={}):
+def create_layout(w=1000, h=1000, tit="Weather Forecast", xax=None, yax=None, annot=None, shps=None, axis={}):
 
 	return go.Layout(
-		title="Weather Forecast",
+		title=tit,
 		width=w,
 		height=h,
 		showlegend=False,
@@ -56,35 +57,10 @@ def create_data(graph, data):
 	)
 
 def create_figure(data, layout):
-	# Creating edges
-	trace1=go.Scatter3d(
-		x=data['Ce']['Xe'],
-		y=data['Ce']['Ye'],
-		z=data['Ce']['Ze'],
-		mode='lines',
-		line=dict(color='rgb(200,200,200)', width=2),
-		hoverinfo='none'
-	)
-
-	# Creating nodes
-	trace2=go.Scatter3d(
-		x=data['Cn']['Xn'],
-		y=data['Cn']['Yn'],
-		z=data['Cn']['Zn'],
-		mode='markers',
-		name='forecasts',
-		marker=dict(
-			symbol='circle',
-			size=6,
-			color=data['group'],
-			colorscale='Viridis',
-			line=dict(color='rgb(50,50,50)', width=0.5)
-		),
-		text=data['labels'],
-		hoverinfo='text'
-	)
+	
+	traces = view_objs.get_custom_traces(data)
 	return dict(
-			data=[trace1, trace2],
+			data=traces,
 			layout=layout
 		)
 
