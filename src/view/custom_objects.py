@@ -72,7 +72,7 @@ def get_custom_traces(data):
 		name='forecasts',
 		marker=dict(
 			#symbol='circle',
-			size=rd.randint(9, 18),
+			size=rd.randint(16, 26),
 			color=data['group'],
 			colorscale=get_colorscale(new_id),
 			line=dict(color='rgb(50,50,50)', width=0),

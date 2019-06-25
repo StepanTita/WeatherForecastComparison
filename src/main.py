@@ -16,7 +16,7 @@ external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
-data = ld.load_data()
+data = ld.read_data("../data/forecasts.json")
 graph = cg.create_graph(data)
 figure_data = cf.create_data(graph, data)
 fig = cf.create_figure(figure_data, cf.create_layout(annot=view_objs.custom_layout()))

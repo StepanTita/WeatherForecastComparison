@@ -8,6 +8,11 @@ def load_data(path="https://raw.githubusercontent.com/plotly/datasets/master/mis
 	file = urllib.request.urlopen(path)
 	data = json.loads(file.read())
 	return data
+def read_data(path):
+	data = []
+	with open(path) as file:
+		data = json.loads(file.read())
+	return data
 
 if __name__ == "__main__":
 	print(load_data())
