@@ -3,7 +3,7 @@ import math
 import graph
 
 def prim_algorithm(graph):
-	graph.sort_adj()
+	graph.sort_adj_list()
 
 	nodes_count = graph.get_count_nodes()
 
