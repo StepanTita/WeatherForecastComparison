@@ -17,13 +17,30 @@ class Edge(object):
 	def get_to(self):
 		return self.node_to
 
+class Node(object):
+	"""docstring for Node"""
+	def __init__(self, name, group):
+		super(Node, self).__init__()
+		self.name = name
+		self.group = group
+		
+
 class GraphWeighted(object):
 	"""docstring for GraphWeighted"""
-	def __init__(self, count_nodes, count_edges):
-		super(Graph, self).__init__()
-		self.count_edges = count_edges
-		self.adj_list = [list()] * count_nodes
-		
+	def __init__(self, data):
+		super(GraphWeighted, self).__init__()
+		self.count_edges = len(data['nodes'])
+		self.adj_list = [[] for i in range(len(data['nodes']))]
+		self.data = data
+		for i in range(len(data['nodes'])):
+			fr = data['links'][i]['source']
+			to = data['links'][i]['target']
+			self.adj_list[fr].append((to, data['links'][i]['value']))
+			self.adj_list[to].append((fr, data['links'][i]['value']))
+	
+	def get_adj_list(self):
+		return self.adj_list	
+
 	def add_edge_undirected(self, node_fr, node_to, weight):
 		self.adj_list[node_fr].append((node_to, weight))
 		self.adj_list[node_to].append((node_fr, weight))
@@ -32,11 +49,11 @@ class GraphWeighted(object):
 		return len(self.adj_list)
 
 	def sort_adj_list(self):
-		for edges in adj_list:
+		for edges in self.adj_list:
 			edges.sort(key=lambda x: x[1])
 
 	def get_edges(self, v):
-		return adj_list[v]
+		return self.adj_list[v]
 
 	def get_adj_matrix(self):
 		count_nodes = self.get_count_nodes()
@@ -53,6 +70,9 @@ class GraphWeighted(object):
 			for j, w in self.adj_list[i]:
 				cap[i][j] += w
 		return cap
+
+	def get_data(self):
+		return self.data
 
 class GraphNetwork(object):
 	"""docstring for GraphNetwork"""
@@ -99,13 +119,13 @@ class GraphNetwork(object):
 				fr = e.node_fr
 				to = e.node_to
 
-				if e.flow >= e.capacity || self.dist[fr] == math.inf:
+				if e.flow >= e.capacity or self.dist[fr] == math.inf:
 					continue
 
 				if self.dist[to] > self.dist[fr] + e.cost:
 					used_edge[to] = idx
 					to_upd = True
-			if !to_upd:
+			if not to_upd:
 				break
 
 

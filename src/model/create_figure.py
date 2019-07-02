@@ -23,7 +23,9 @@ def create_layout(w=1000, h=1000, tit="Weather Forecast", xax=None, yax=None, an
 
 def create_data(graph, data):
 	count_nodes = len(data['nodes'])
-
+	bold = None
+	if 'bold' in data:
+		bold = data['bold']
 	labels=[]
 	group=[]
 	for node in data['nodes']:
@@ -37,10 +39,19 @@ def create_data(graph, data):
 	Xe=[]
 	Ye=[]
 	Ze=[]
-	for e in graph.get_edgelist():
-		Xe+=[layt[e[0]][0],layt[e[1]][0], None] # x-coordinates of edge ends
-		Ye+=[layt[e[0]][1],layt[e[1]][1], None]  
-		Ze+=[layt[e[0]][2],layt[e[1]][2], None]
+	for idx, e in enumerate(graph.get_edgelist()):
+		Xe.append({
+			'coord' : [layt[e[0]][0],layt[e[1]][0], None],
+			'bold' : bold[e[0]][e[1]] if bold != None else False
+		}) # x-coordinates of edge ends
+		Ye.append({
+			'coord' : [layt[e[0]][1],layt[e[1]][1], None],
+			'bold' : bold[e[0]][e[1]] if bold != None else False
+		})
+		Ze.append({
+			'coord' : [layt[e[0]][2],layt[e[1]][2], None],
+			'bold' : bold[e[0]][e[1]] if bold != None else False
+		})
 	return dict(
 		Cn={
 			'Xn': Xn, 
@@ -58,7 +69,7 @@ def create_data(graph, data):
 
 def create_figure(data, layout):
 	
-	traces = view_objs.get_custom_traces(data)
+	traces = view_objs.get_bold_traces(data)
 	return dict(
 			data=traces,
 			layout=layout
