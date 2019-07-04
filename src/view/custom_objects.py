@@ -3,20 +3,22 @@ import plotly.graph_objs as go
 import dash_core_components as dcc
 import dash_html_components as html
 import random as rd
+import math
 
 def custom_layout():
 	return [dict(
 				showarrow=False,
 				#text="Data source: <a href='http://bost.ocks.org/mike/miserables/miserables.json'>[1] miserables.json</a>",
-				xref='paper',
-				yref='paper',
+				#xref='paper',
+				#yref='paper',
 				x=0,
 				y=0.1,
 				xanchor='left',
 				yanchor='bottom',
 				font=dict(
 					size=14
-				)
+				),
+				bgcolor='black'
 			)]
 def custom_axis():
 	return dict(
@@ -51,46 +53,9 @@ def get_colorscale(new_id=14):
 	]
 	return colorscales[new_id]
 
-def get_custom_traces(data):
-	new_id = rd.randint(0, 17)
-	print(new_id)
-	# Creating edges
-	trace1=go.Scatter3d(
-		x=data['Ce']['Xe'],
-		y=data['Ce']['Ye'],
-		z=data['Ce']['Ze'],
-		mode='lines',
-		line=dict(color='rgb(200,200,200)', width=2),
-		hoverinfo='none'
-	)
-
-	# Creating nodes 
-	# ??????????????????????????????? WHAT ABOUT DIFFERENT SIZES????
-	trace2=go.Scatter3d(
-		x=data['Cn']['Xn'],
-		y=data['Cn']['Yn'],
-		z=data['Cn']['Zn'],
-		mode='markers',
-		name='forecasts',
-		marker=dict(
-			#symbol='circle',
-			size=rd.randint(16, 26),
-			color=data['group'],
-			colorscale=get_colorscale(new_id),
-			line=dict(color='rgb(50,50,50)', width=0),
-			opacity=0.8
-		),
-		text=data['labels'],
-		hoverinfo='text'
-	)
-	print(trace1)
-	print("----------------------------------------------------------")
-	print(trace2)
-	return [trace1, trace2]
-
 def get_bold_traces(data):
 	#new_id = rd.randint(0, 17)
-	new_id = 14
+	new_id = 11
 	#print(new_id)
 	# Creating edges
 	trace1 = []
@@ -104,14 +69,88 @@ def get_bold_traces(data):
 			y=edgesY[i]['coord'],
 			z=edgesZ[i]['coord'],
 			mode='lines',
-			line=dict(color='rgb(255,10,10)' if edgesX[i]['bold'] else 'rgb(200,200,200)', width=10 if edgesX[i]['bold'] else 2),
-			hoverinfo=['x', 'y', 'z', 'text', 'name']
+			line=dict(
+				color='rgb(255,10,10)' if edgesX[i]['bold'] else 'rgb(250,250,250)', 
+				width=10 if edgesX[i]['bold'] else 3
+			),
+			text=data['weights'][i]
+			#hoverinfo='x+y+z', 'text', 'name']
 		))
-	
 
 	# Creating nodes 
 	# ??????????????????????????????? WHAT ABOUT DIFFERENT SIZES????
-	trace2=go.Scatter3d(
+	trace2 = go.Scatter3d(
+		x=data['Cn']['Xn'],
+		y=data['Cn']['Yn'],
+		z=data['Cn']['Zn'],
+		mode='markers',
+		name='forecasts',
+		marker=dict(
+			symbol='circle',
+			size=rd.randint(16, 26),
+			color=data['group'],
+			colorscale=get_colorscale(new_id),
+			line=dict(color='rgb(50,50,50)', width=0),
+			opacity=0.8
+		),
+		text=data['labels'],
+		hoverinfo='text'
+	)
+	# print(trace1)
+	# print("----------------------------------------------------------")
+	# print(trace2)
+	trace1.append(trace2)
+	return trace1
+
+def get_scale_traces(data):
+	#new_id = rd.randint(0, 17)
+	new_id = 11
+	#print(new_id)
+	# Creating edges
+	trace1 = []
+	edges = data['Ce']
+	edgesX = edges['Xe']
+	edgesY = edges['Ye']
+	edgesZ = edges['Ze']
+
+	colors = []
+	Xs = []
+	Ys = []
+	Zs = []
+
+	for i in range(len(edgesX)):
+		Xs+=edgesX[i]['coord']
+		Ys+=edgesY[i]['coord']
+		Zs+=edgesZ[i]['coord']
+		colors += [edgesX[i]['scale'], edgesX[i]['scale'], edgesX[i]['scale']]
+	print(colors)
+	trace1 = go.Scatter3d(
+		x=Xs,
+		y=Ys,
+		z=Zs,
+		mode='lines',
+		line=dict(
+			color=colors, 
+			width=12,#widths,
+			colorscale=get_colorscale(11),
+			cmin=0,
+			cmax=len(colors),
+			autocolorscale=True
+        ),
+        marker=dict(
+        	colorbar=dict(
+                title='Colorbar'
+            )
+        ),
+        opacity=0.8
+        
+		#text=data['weights'],
+		#hoverinfo='text'#['x', 'y', 'z', 'text', 'name']
+	)
+
+	# Creating nodes 
+	# ??????????????????????????????? WHAT ABOUT DIFFERENT SIZES????
+	trace2 = go.Scatter3d(
 		x=data['Cn']['Xn'],
 		y=data['Cn']['Yn'],
 		z=data['Cn']['Zn'],
@@ -128,11 +167,12 @@ def get_bold_traces(data):
 		text=data['labels'],
 		hoverinfo='text'
 	)
-	#print(trace1)
-	#print("----------------------------------------------------------")
-	#print(trace2)
-	trace1.append(trace2)
-	return trace1
+
+
+	# print(trace1)
+	# print("----------------------------------------------------------")
+	# print(trace2)
+	return [trace1, trace2]
 
 def create_slider():
 	return html.Div(dcc.Slider(
@@ -143,7 +183,18 @@ def create_slider():
         step=1,
         marks={i : "Step {}".format(i) for i in range(11)},
         disabled=False
-    ), style={'width': '60%'}, id='slider-container')
+    ), style={'width': '100%', 'margin-bottom' : '50px'}, id='slider-container')
+
+def create_dropdown():
+	return html.Div(dcc.Dropdown(
+        id='drop-algos',
+        options=[
+            {'label': 'Prim', 'value': 'prim'},
+            {'label': 'Stoer-Wagner', 'value': 'stw'},
+            {'label': 'Preflow push', 'value': 'pfp'}
+        ],
+        value='prim'
+    ), style={'width': '100%', 'margin-bottom' : '50px'})
 
 if __name__ == '__main__':
 	main()

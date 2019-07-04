@@ -19,13 +19,13 @@ external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
-data = ld.read_data("../data/forecasts.json")
+data = ld.read_data("../data/test.json")
 my_graph = alg_graph.GraphWeighted(data)
 vis = drw.GraphVisual(my_graph)
 
 graph = cg.create_graph(data)
 figure_data = cf.create_data(graph, data)
-fig = cf.create_figure(figure_data, cf.create_layout(annot=view_objs.custom_layout()))
+fig = cf.create_figure(figure_data, cf.create_layout(), view_objs.get_scale_traces)
 
 app.layout = html.Div(children=[
 	html.H1(children='Hello Dash'),
@@ -36,7 +36,8 @@ app.layout = html.Div(children=[
 
 	view_graph.get_graph(fig),
 	view_objs.create_slider(),
-	html.Button('Run Prim', id='prim-btn')
+	view_objs.create_dropdown(),
+	html.Button('Run', id='prim-btn')
 ])
 
 
@@ -53,17 +54,23 @@ def update_graph(value):
 
 @app.callback(
 	dash.dependencies.Output('slider-container', 'children'),
-	[dash.dependencies.Input('prim-btn', 'n_clicks')])
-def update_output(n_clicks):
-	vis.apply_prim()
+	[dash.dependencies.Input('prim-btn', 'n_clicks')],
+	[dash.dependencies.State('drop-algos', 'value')])
+def update_output(n_clicks, value):
+	if value == 'prim':
+		vis.apply_prim()
+	elif value == 'stw':
+		vis.apply_stoer_wagner()
+	elif value == 'pfp':
+		vis.apply_preflow()
 	if n_clicks != None and n_clicks > 0:
 		return dcc.Slider(
 			id='algo_steps',
-			min=1,
+			min=0,
 			max=vis.count_snapshots(),
 			value=1,
 			marks={str(i + 1) : str(i + 1) for i in range(vis.count_snapshots())}
-			)
+		)
 
 if __name__ == '__main__':
 	app.run_server(debug=True)

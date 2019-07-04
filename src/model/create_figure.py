@@ -8,7 +8,7 @@ def create_layout(w=1000, h=1000, tit="Weather Forecast", xax=None, yax=None, an
 		title=tit,
 		width=w,
 		height=h,
-		showlegend=False,
+		showlegend=True,
 		scene=dict(
 			xaxis=dict(axis),
 			yaxis=dict(axis),
@@ -18,14 +18,21 @@ def create_layout(w=1000, h=1000, tit="Weather Forecast", xax=None, yax=None, an
 			t=100
 		),
 		hovermode='closest',
-		annotations=annot
+		annotations=annot,
+		plot_bgcolor='black',
+		paper_bgcolor='black'
 	)
 
 def create_data(graph, data):
 	count_nodes = len(data['nodes'])
 	bold = None
+	scale  = None
+	weights = [data['links'][i]['value'] for i in range(len(data['links']))]
+
 	if 'bold' in data:
 		bold = data['bold']
+	if 'scale' in data:
+		scale = data['scale']
 	labels=[]
 	group=[]
 	for node in data['nodes']:
@@ -39,17 +46,20 @@ def create_data(graph, data):
 	Xe=[]
 	Ye=[]
 	Ze=[]
+
+	third = None
 	for idx, e in enumerate(graph.get_edgelist()):
 		Xe.append({
-			'coord' : [layt[e[0]][0],layt[e[1]][0], None],
-			'bold' : bold[e[0]][e[1]] if bold != None else False
+			'coord' : [layt[e[0]][0], layt[e[1]][0], third],
+			'bold' : bold[e[0]][e[1]] if bold != None else False,
+			'scale' : int(scale[e[0]][e[1]]) if scale != None else 0
 		}) # x-coordinates of edge ends
 		Ye.append({
-			'coord' : [layt[e[0]][1],layt[e[1]][1], None],
+			'coord' : [layt[e[0]][1],layt[e[1]][1], third],
 			'bold' : bold[e[0]][e[1]] if bold != None else False
 		})
 		Ze.append({
-			'coord' : [layt[e[0]][2],layt[e[1]][2], None],
+			'coord' : [layt[e[0]][2],layt[e[1]][2], third],
 			'bold' : bold[e[0]][e[1]] if bold != None else False
 		})
 	return dict(
@@ -64,12 +74,13 @@ def create_data(graph, data):
 			'Ze': Ze
 		},
 		group=group,
-		labels=labels
+		labels=labels,
+		weights=weights
 	)
 
-def create_figure(data, layout):
+def create_figure(data, layout, fun):
 	
-	traces = view_objs.get_bold_traces(data)
+	traces = fun(data)
 	return dict(
 			data=traces,
 			layout=layout

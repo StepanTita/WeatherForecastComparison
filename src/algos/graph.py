@@ -32,11 +32,21 @@ class GraphWeighted(object):
 		self.count_edges = len(data['nodes'])
 		self.adj_list = [[] for i in range(len(data['nodes']))]
 		self.data = data
-		for i in range(len(data['nodes'])):
+		for i in range(len(data['links'])):
 			fr = data['links'][i]['source']
 			to = data['links'][i]['target']
 			self.adj_list[fr].append((to, data['links'][i]['value']))
 			self.adj_list[to].append((fr, data['links'][i]['value']))
+		print_list(self.adj_list)
+
+	# def __init__(self, edges, nodes):
+	# 	super(GraphWeighted, self).__init__()
+	# 	self.count_edges = len(edges)
+	# 	self.adj_list = [[] for __ in range(nodes)]
+	# 	for e in edges:
+	# 		self.adj_list[e[0]].append((e[1], e[2]))
+	# 		self.adj_list[e[1]].append((e[0], e[2]))
+	# 	print_list(self.adj_list)
 	
 	def get_adj_list(self):
 		return self.adj_list	
@@ -51,16 +61,19 @@ class GraphWeighted(object):
 	def sort_adj_list(self):
 		for edges in self.adj_list:
 			edges.sort(key=lambda x: x[1])
+		print_list(self.adj_list)
 
 	def get_edges(self, v):
 		return self.adj_list[v]
 
-	def get_adj_matrix(self):
+	def get_adj_matrix(self, el=math.inf):
 		count_nodes = self.get_count_nodes()
-		adj_matrix = [[0] * count_nodes for __ in range(count_nodes)]
+		adj_matrix = [[el] * count_nodes for __ in range(count_nodes)]
 		for i in range(count_nodes):
 			for j, w in self.adj_list[i]:
 				adj_matrix[i][j] = w
+				adj_matrix[j][i] = w
+		print_matr(adj_matrix)
 		return adj_matrix
 
 	def get_capacities(self):
@@ -69,6 +82,7 @@ class GraphWeighted(object):
 		for i in range(count_nodes):
 			for j, w in self.adj_list[i]:
 				cap[i][j] += w
+		print_matr(cap)
 		return cap
 
 	def get_data(self):
@@ -147,3 +161,16 @@ class GraphNetwork(object):
 			flow += delta_flow
 		return (cost, flow)
 
+def print_list(lst):
+	for idx, n1 in enumerate(lst):
+		print(idx, end="")
+		for n2, w in lst[idx]:
+			print(" --> (" + str(n2) + ", " + str(w) + ")", end=" ")
+		print("")
+
+def print_matr(lst):
+	for idx, n1 in enumerate(lst):
+		print(idx, end="")
+		for n2, w in enumerate(lst[idx]):
+			print(" --> (" + str(n2) + ", " + str(w) + ")", end=" ")
+		print("")
