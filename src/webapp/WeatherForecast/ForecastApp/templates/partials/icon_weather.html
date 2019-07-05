@@ -1,0 +1,22 @@
+<div class="forecast-icon">
+	{% if frcst.rain %}
+		{% load static %}
+	    <img src="{% static 'images/icons/icon-11.svg' %}" alt="" width=48>
+	{% elif frcst.thunder %}
+		{% load static %}
+	    <img src="{% static 'images/icons/icon-12.svg' %}" alt="" width=48>
+	{% elif frcst.cloudly %}
+		{% load static %}
+	    <img src="{% static 'images/icons/icon-6.svg' %}" alt="" width=48>
+	{% elif frcst.more_sunny %}
+		{% load static %}
+	    <img src="{% static 'images/icons/icon-1.svg' %}" alt="" width=48>
+	{% elif frcst.snow %}
+		{% load static %}
+	    <img src="{% static 'images/icons/icon-14.svg' %}" alt="" width=48>
+	{% else %}
+		{% load static %}
+	    <img src="{% static 'images/icons/icon-2.svg' %}" alt="" width=48>
+	{% endif %}
+	
+</div>	

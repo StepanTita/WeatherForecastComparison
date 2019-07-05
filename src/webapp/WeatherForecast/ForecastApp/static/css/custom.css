@@ -1,0 +1,32 @@
+#city-select{
+  width: 100%;
+  background-color: #1e202b;
+  color: white;
+  font-size: 16pt;
+}
+
+.location{
+  font-size: 16pt;
+  text-align: center;
+}
+.date{
+  text-align: center;
+}
+
+.percent{
+  font-size: 12pt;
+  width: 100%;
+  font-weight: 100;
+  position: relative;
+  left: 40%;
+}
+
+iframe{
+  border: none !important;
+  width: 100%;
+  min-height: 700px;
+}
+
+.frame-block{
+  padding: 0 !important;
+}

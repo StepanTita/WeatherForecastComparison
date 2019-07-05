@@ -5,15 +5,17 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1">
 		
-		<title>Compass Starter by Ariona, Rian</title>
-
+		<title>Uroboros</title>
+		{% load static %}
 		<!-- Loading third party fonts -->
 		<link href="http://fonts.googleapis.com/css?family=Roboto:300,400,700|" rel="stylesheet" type="text/css">
-		<link href="fonts/font-awesome.min.css" rel="stylesheet" type="text/css">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+		<link href="{% static 'fonts/font-awesome.min.css' %}" rel="stylesheet" type="text/css">
 
 		<!-- Loading main css file -->
-		{% load static %}
+		
 		<link rel="stylesheet" href="{% static 'css/style.css' %}">
+		<link rel="stylesheet" href="{% static 'css/custom.css' %}">
 		
 		<!--[if lt IE 9]>
 		<script src="js/ie-support/html5.js"></script>
@@ -29,10 +31,10 @@
 			<div class="site-header">
 				<div class="container">
 					<a href="index.html" class="branding">
-						<img src="images/logo.png" alt="" class="logo">
+						<img src="{% static 'images/logo.png' %}" alt="" class="logo">
 						<div class="logo-type">
-							<h1 class="site-title">Company name</h1>
-							<small class="site-description">tagline goes here</small>
+							<h1 class="site-title">Uroboros</h1>
+							<small class="site-description">the best predictions</small>
 						</div>
 					</a>
 
@@ -41,10 +43,10 @@
 						<button type="button" class="menu-toggle"><i class="fa fa-bars"></i></button>
 						<ul class="menu">
 							<li class="menu-item current-menu-item"><a href="index.html">Home</a></li>
-							<li class="menu-item"><a href="news.html">News</a></li>
+							<!--<li class="menu-item"><a href="news.html">News</a></li>
 							<li class="menu-item"><a href="live-cameras.html">Live cameras</a></li>
-							<li class="menu-item"><a href="photos.html">Photos</a></li>
-							<li class="menu-item"><a href="contact.html">Contact</a></li>
+							<li class="menu-item"><a href="photos.html">Photos</a></li>-->
+							<li class="menu-item"><a href="contact.html">Visual</a></li>
 						</ul> <!-- .menu -->
 					</div> <!-- .main-navigation -->
 
@@ -53,17 +55,18 @@
 				</div>
 			</div> <!-- .site-header -->
 
-			<div class="hero" data-bg-image="images/banner.png">
+			<div class="hero" data-bg-image="{% static 'images/banner.jpg' %}">
 				<div class="container">
 					<form action="{% url 'index' %}" class="find-location" method="POST">
 						<!--<input type="text" placeholder="Find your location...">-->
 						{% csrf_token %}
-						<select name="city" size="3">
-						  <option value="London">London</option>
-						  <option value="Kiev">Kiev</option>
-						  <option value="Kharkiv">Kharkiv</option>
-						  <option value="Washington">Washington</option>
-						</select>
+							<select name="city" id="city-select" size="1">
+								<option value="" disabled selected>Choose your city</option>
+						  		<option value="London">London</option>
+						  		<option value="Kiev">Kiev</option>
+						  		<option value="Kharkiv">Kharkiv</option>
+						  		<option value="Washington">Washington</option>
+							</select>
 						<input type="submit" value="Find">
 					</form>
 
@@ -74,130 +77,87 @@
 					<div class="forecast-container">
 						<div class="today forecast">
 							<div class="forecast-header">
-								<div class="day">Monday</div>
+								<div class="day">{{ forecast.0.week_day }}</div>
 								<div class="date">{{ forecast.0.pub_date }}</div>
 							</div> <!-- .forecast-header -->
 							<div class="forecast-content">
 								<div class="location">{{ forecast.0.place }}</div>
 								<div class="degree">
 									<div class="num">{{ forecast.0.temperature }}<sup>o</sup>C</div>
-									<div class="forecast-icon">
-										<img src="images/icons/icon-1.svg" alt="" width=90>
-									</div>	
+									{% with frcst=forecast.0 %}     
+									{% include 'partials/icon_weather.html' %}
+									{% endwith %}
 								</div>
 								<span>
-									<img src="images/icon-umberella.png" alt="">{{ forecast.0.humidity }}%
+									<img src="{% static 'images/icon-umberella.png' %}" alt="">{{ forecast.0.humidity }}%
 								</span>
-								<span><img src="images/icon-wind.png" alt="">18km/h</span>
-								<span><img src="images/icon-compass.png" alt="">{{ forecast.0.wind }}</span>
+								<span><img src="{% static 'images/icon-wind.png' %}" alt="">{{ forecast.0.wind_speed }}</span>
+								<span><img src="{% static 'images/icon-compass.png' %}" alt="">{{ forecast.0.wind }}</span>
 							</div>
 						</div>
+
+						<!--FORECASTS-->
+						{% for frcst in forecast|slice:"1:7" %}
 						<div class="forecast">
 							<div class="forecast-header">
-								<div class="day">Tuesday</div>
+								<div class="day">{{ frcst.week_day }}</div>
 							</div> <!-- .forecast-header -->
 							<div class="forecast-content">
-								<div class="forecast-icon">
-									<img src="images/icons/icon-3.svg" alt="" width=48>
-								</div>
-								<div class="degree">{{ forecast.1.temperature }}<sup>o</sup>C</div>
-								<small>18<sup>o</sup></small>
+								{% include 'partials/icon_weather.html' %}
+								<div class="degree">{{ frcst.temperature }}<sup>o</sup>C</div>
+								<small>{{ frcst.humidity }}%</small>
+								<small>{{ frcst.wind }}</small>
 							</div>
 						</div>
-						<div class="forecast">
-							<div class="forecast-header">
-								<div class="day">Wednesday</div>
-							</div> <!-- .forecast-header -->
-							<div class="forecast-content">
-								<div class="forecast-icon">
-									<img src="images/icons/icon-5.svg" alt="" width=48>
-								</div>
-								<div class="degree">23<sup>o</sup>C</div>
-								<small>18<sup>o</sup></small>
-							</div>
-						</div>
-						<div class="forecast">
-							<div class="forecast-header">
-								<div class="day">Thursday</div>
-							</div> <!-- .forecast-header -->
-							<div class="forecast-content">
-								<div class="forecast-icon">
-									<img src="images/icons/icon-7.svg" alt="" width=48>
-								</div>
-								<div class="degree">23<sup>o</sup>C</div>
-								<small>18<sup>o</sup></small>
-							</div>
-						</div>
-						<div class="forecast">
-							<div class="forecast-header">
-								<div class="day">Friday</div>
-							</div> <!-- .forecast-header -->
-							<div class="forecast-content">
-								<div class="forecast-icon">
-									<img src="images/icons/icon-12.svg" alt="" width=48>
-								</div>
-								<div class="degree">23<sup>o</sup>C</div>
-								<small>18<sup>o</sup></small>
-							</div>
-						</div>
-						<div class="forecast">
-							<div class="forecast-header">
-								<div class="day">Saturday</div>
-							</div> <!-- .forecast-header -->
-							<div class="forecast-content">
-								<div class="forecast-icon">
-									<img src="images/icons/icon-13.svg" alt="" width=48>
-								</div>
-								<div class="degree">23<sup>o</sup>C</div>
-								<small>18<sup>o</sup></small>
-							</div>
-						</div>
-						<div class="forecast">
-							<div class="forecast-header">
-								<div class="day">Sunday</div>
-							</div> <!-- .forecast-header -->
-							<div class="forecast-content">
-								<div class="forecast-icon">
-									<img src="images/icons/icon-14.svg" alt="" width=48>
-								</div>
-								<div class="degree">23<sup>o</sup>C</div>
-								<small>18<sup>o</sup></small>
-							</div>
-						</div>
+						{% endfor %}
 					</div>
 				</div>
 			</div>
 			<main class="main-content">
 				<div class="fullwidth-block">
 					<div class="container">
-						<h2 class="section-title">Live cameras</h2>
+						<h2 class="section-title">Available Sources</h2>
 						<div class="row">
-							<div class="col-md-3 col-sm-6">
+							<div class="col-md-2 col-sm-6">
 								<div class="live-camera">
-									<figure class="live-camera-cover"><img src="images/live-camera-1.jpg" alt=""></figure>
-									<h3 class="location">New York</h3>
-									<small class="date">8 oct, 8:00AM</small>
+									<figure class="live-camera-cover"><img src="{% static 'images/YandexLogo.png' %}" alt=""></figure>
+									<h3 class="location">Yandex</h3>
+									<small class="date percent">30%</small>
 								</div>
 							</div>
-							<div class="col-md-3 col-sm-6">
+							<div class="col-md-2 col-sm-6">
 								<div class="live-camera">
-									<figure class="live-camera-cover"><img src="images/live-camera-2.jpg" alt=""></figure>
-									<h3 class="location">Los Angeles</h3>
-									<small class="date">8 oct, 8:00AM</small>
+									<figure class="live-camera-cover"><img src="{% static 'images/AccuLogo.png' %}" alt=""></figure>
+									<h3 class="location">AccWeather</h3>
+									<small class="date percent">27%</small>
 								</div>
 							</div>
-							<div class="col-md-3 col-sm-6">
+							<div class="col-md-2 col-sm-6">
 								<div class="live-camera">
-									<figure class="live-camera-cover"><img src="images/live-camera-3.jpg" alt=""></figure>
-									<h3 class="location">Chicago</h3>
-									<small class="date">8 oct, 8:00AM</small>
+									<figure class="live-camera-cover"><img src="{% static 'images/BBCLogo2.png' %}" alt=""></figure>
+									<h3 class="location">BBC Forecast</h3>
+									<small class="date percent">25%</small>
 								</div>
 							</div>
-							<div class="col-md-3 col-sm-6">
+							<div class="col-md-2 col-sm-6">
 								<div class="live-camera">
-									<figure class="live-camera-cover"><img src="images/live-camera-4.jpg" alt=""></figure>
-									<h3 class="location">London</h3>
-									<small class="date">8 oct, 8:00AM</small>
+									<figure class="live-camera-cover"><img src="{% static 'images/gismeteLogo.png' %}" alt=""></figure>
+									<h3 class="location">Gismeteo</h3>
+									<small class="date percent">9%</small>
+								</div>
+							</div>
+							<div class="col-md-2 col-sm-6">
+								<div class="live-camera">
+									<figure class="live-camera-cover"><img src="{% static 'images/WowLogo.png' %}" alt=""></figure>
+									<h3 class="location">World Weather</h3>
+									<small class="date percent">6%</small>
+								</div>
+							</div>
+							<div class="col-md-2 col-sm-6">
+								<div class="live-camera">
+									<figure class="live-camera-cover"><img src="{% static 'images/intelliLogo.png' %}" alt=""></figure>
+									<h3 class="location">Intellicast</h3>
+									<small class="date percent">3%</small>
 								</div>
 							</div>
 						</div>
@@ -209,31 +169,34 @@
 						<div class="row">
 							<div class="col-md-4">
 								<div class="news">
-									<div class="date">06.10</div>
-									<h3><a href="#">Doloremque laudantium totam sequi </a></h3>
+									<div class="date">98%</div>
+									<h3><a href="#">Temperature with AccuWeather</a></h3>
 									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illo saepe assumenda dolorem modi, expedita voluptatum ducimus necessitatibus. Asperiores quod reprehenderit necessitatibus harum, mollitia, odit et consequatur maxime nisi amet doloremque.</p>
 								</div>
 							</div>
 							<div class="col-md-4">
 								<div class="news">
-									<div class="date">06.10</div>
-									<h3><a href="#">Doloremque laudantium totam sequi </a></h3>
+									<div class="date">78%</div>
+									<h3><a href="#">Humidity with BBC</a></h3>
 									<p>Nobis architecto consequatur ab, ea, eum autem aperiam accusantium placeat vitae facere explicabo temporibus minus distinctio cum optio quis, dignissimos eius aspernatur fuga. Praesentium totam, corrupti beatae amet expedita veritatis.</p>
 								</div>
 							</div>
 							<div class="col-md-4">
 								<div class="news">
-									<div class="date">06.10</div>
-									<h3><a href="#">Doloremque laudantium totam sequi </a></h3>
+									<div class="date">92%</div>
+									<h3><a href="#">Wind conditions with Yandex</a></h3>
 									<p>Enim impedit officiis placeat qui recusandae doloremque possimus, iusto blanditiis, quam optio delectus maiores. Possimus rerum, velit cum natus eos. Cumque pariatur beatae asperiores, esse libero quas ad dolorem. Voluptates.</p>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-
-				<div class="fullwidth-block">
-					<div class="container">
+				
+				<div class="fullwidth-block frame-block">
+					<iframe src="http://127.0.0.1:8050/" align="center">
+					    Ваш браузер не поддерживает плавающие фреймы!
+					 </iframe>
+					<!--<div class="container">
 						<div class="row">
 							<div class="col-md-4">
 								<h2 class="section-title">Application features</h2>
@@ -279,7 +242,7 @@
 								</div>
 							</div>
 						</div>
-					</div>
+					</div>-->
 				</div>
 			</main> <!-- .main-content -->
 
@@ -307,9 +270,9 @@
 			</footer> <!-- .site-footer -->
 		</div>
 		
-		<script src="js/jquery-1.11.1.min.js"></script>
-		<script src="js/plugins.js"></script>
-		<script src="js/app.js"></script>
+		<script src="{% static 'js/jquery-1.11.1.min.js' %}"></script>
+		<script src="{% static 'js/plugins.js' %}"></script>
+		<script src="{% static 'js/app.js' %}"></script>
 		
 	</body>
 

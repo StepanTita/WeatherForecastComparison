@@ -28,12 +28,6 @@ figure_data = cf.create_data(graph, data)
 fig = cf.create_figure(figure_data, cf.create_layout(), view_objs.get_scale_traces)
 
 app.layout = html.Div(children=[
-	html.H1(children='Hello Dash'),
-
-	html.Div(children='''
-		Dash: A web application framework for Python.
-	'''),
-
 	view_graph.get_graph(fig),
 	view_objs.create_slider(),
 	view_objs.create_dropdown(),

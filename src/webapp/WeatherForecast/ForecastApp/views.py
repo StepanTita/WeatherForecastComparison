@@ -8,7 +8,8 @@ def index(request):
 		city = request.POST.get('city', '')
 		forecasts = Forecast.objects.order_by('pub_date').filter(place=city)
 		context = {'forecast' : forecasts}
-		print(forecasts)
 		return render(request, "index.html", context)
 	else:
-		return render(request, "index.html")
+		forecasts = Forecast.objects.order_by('pub_date').filter(place="London")
+		context = {'forecast' : forecasts}
+		return render(request, "index.html", context)
