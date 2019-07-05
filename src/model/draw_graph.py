@@ -68,7 +68,7 @@ class GraphVisual(object):
 		data['bold'] = bold_edges
 		graph = cg.create_graph(data)
 		figure_data = cf.create_data(graph, data)
-		fig = cf.create_figure(figure_data, cf.create_layout(), view_objs.get_bold_traces)
+		fig = cf.create_figure(figure_data, cf.create_layout(axis=view_objs.custom_axis()), view_objs.get_bold_traces)
 		return fig
 
 	def _create_figure_flows(self, flows, max_flow):
@@ -76,7 +76,7 @@ class GraphVisual(object):
 		data['scale'] = [[(i / (max_flow + 1)) * 3 for i in __] for __ in flows]
 		graph = cg.create_graph(data)
 		figure_data = cf.create_data(graph, data)
-		fig = cf.create_figure(figure_data, cf.create_layout(), view_objs.get_scale_traces)
+		fig = cf.create_figure(figure_data, cf.create_layout(axis=view_objs.custom_axis()), view_objs.get_scale_traces)
 		return fig
 
 	def get_snapshot(self, ind):
@@ -99,3 +99,6 @@ class GraphVisual(object):
 
 	def clear_snapshots(self):
 		self.snapshots.clear()
+
+	def get_frames(self):
+		return self.snapshots

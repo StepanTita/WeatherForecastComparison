@@ -2,11 +2,11 @@ import plotly.graph_objs as go
 import create_graph as cg
 import view.custom_objects as view_objs
 
-def create_layout(w=1000, h=1000, tit="Weather Forecast", xax=None, yax=None, annot=None, shps=None, axis={}):
+def create_layout(w=1000, h=700, tit="Weather Forecast", xax=None, yax=None, annot=None, shps=None, axis={}):
 
 	return go.Layout(
 		title=tit,
-		width=w,
+		#width=w,
 		height=h,
 		showlegend=True,
 		scene=dict(
@@ -20,7 +20,12 @@ def create_layout(w=1000, h=1000, tit="Weather Forecast", xax=None, yax=None, an
 		hovermode='closest',
 		annotations=annot,
 		plot_bgcolor='black',
-		paper_bgcolor='black'
+		paper_bgcolor='black',
+		font=dict(
+			size=13,
+			family='sans-serif',
+            color='#FFF'
+		)
 	)
 
 def create_data(graph, data):

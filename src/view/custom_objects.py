@@ -16,7 +16,9 @@ def custom_layout():
 				xanchor='left',
 				yanchor='bottom',
 				font=dict(
-					size=14
+					size=16,
+					family='sans-serif',
+            		color='#FFF'
 				),
 				bgcolor='black'
 			)]
@@ -73,7 +75,8 @@ def get_bold_traces(data):
 				color='rgb(255,10,10)' if edgesX[i]['bold'] else 'rgb(250,250,250)', 
 				width=10 if edgesX[i]['bold'] else 3
 			),
-			text=data['weights'][i]
+			text=data['weights'][i],
+			name="Edge " + str(i),
 			#hoverinfo='x+y+z', 'text', 'name']
 		))
 
@@ -91,7 +94,11 @@ def get_bold_traces(data):
 			color=data['group'],
 			colorscale=get_colorscale(new_id),
 			line=dict(color='rgb(50,50,50)', width=0),
-			opacity=0.8
+			opacity=0.8,
+
+			# sizemode="area",
+			# sizeref=200000,
+			# size=[rd.randint(12, 22) for __ in range(len(data['Cn']['Xn']))]
 		),
 		text=data['labels'],
 		hoverinfo='text'
@@ -123,7 +130,6 @@ def get_scale_traces(data):
 		Ys+=edgesY[i]['coord']
 		Zs+=edgesZ[i]['coord']
 		colors += [edgesX[i]['scale'], edgesX[i]['scale'], edgesX[i]['scale']]
-	print(colors)
 	trace1 = go.Scatter3d(
 		x=Xs,
 		y=Ys,
@@ -142,9 +148,8 @@ def get_scale_traces(data):
                 title='Colorbar'
             )
         ),
-        opacity=0.8
-        
-		#text=data['weights'],
+        opacity=0.8,
+		text=data['weights'],
 		#hoverinfo='text'#['x', 'y', 'z', 'text', 'name']
 	)
 
@@ -177,9 +182,9 @@ def get_scale_traces(data):
 def create_slider():
 	return html.Div(dcc.Slider(
         id='algo_steps',
-        min=1,
+        min=0,
         max=10,
-        value=1,
+        value=0,
         step=1,
         marks={i : "Step {}".format(i) for i in range(11)},
         disabled=False

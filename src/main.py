@@ -25,7 +25,7 @@ vis = drw.GraphVisual(my_graph)
 
 graph = cg.create_graph(data)
 figure_data = cf.create_data(graph, data)
-fig = cf.create_figure(figure_data, cf.create_layout(), view_objs.get_scale_traces)
+fig = cf.create_figure(figure_data, cf.create_layout(axis=view_objs.custom_axis()), view_objs.get_bold_traces)
 
 app.layout = html.Div(children=[
 	view_graph.get_graph(fig),
@@ -42,6 +42,9 @@ app.layout = html.Div(children=[
 def update_graph(value):
 	global fig
 	new_fig = vis.get_snapshot(value)
+	# if new_fig is not None:
+	# 	frames = vis.get_frames()
+	# 	new_fig['frames'] = [{'data' : }]
 	if new_fig is None:
 		return fig
 	return new_fig
@@ -63,7 +66,7 @@ def update_output(n_clicks, value):
 			min=0,
 			max=vis.count_snapshots(),
 			value=1,
-			marks={str(i + 1) : str(i + 1) for i in range(vis.count_snapshots())}
+			marks={str(i) : str(i) for i in range(vis.count_snapshots())}
 		)
 
 if __name__ == '__main__':
