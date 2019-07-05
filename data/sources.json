@@ -1,0 +1,64 @@
+{
+  "sources": [
+    {
+      "name" : ["gismeteo.ua"], 
+      "acc_t" : {"src" : "gismeteo.ua", "val" : 0.78}, 
+      "acc_h" : {"src" : "gismeteo.ua", "val" : 0.66}, 
+      "acc_w" : {"src" : "gismeteo.ua", "val" : 0.84}
+    },
+    {
+      "name" : ["sinoptik.ua"], 
+      "acc_t" : {"src" : "sinoptik.ua", "val" : 0.92}, 
+      "acc_h" : {"src" : "sinoptik.ua", "val" : 0.75}, 
+      "acc_w" : {"src" : "sinoptik.ua", "val" : 0.8}
+    },
+    {
+      "name" : ["meteoproq.ua"], 
+      "acc_t" : {"src" : "meteoproq.ua", "val" : 0.79}, 
+      "acc_h" : {"src" : "meteoproq.ua", "val" : 0.48}, 
+      "acc_w" : {"src" : "meteoproq.ua", "val" : 0.45}
+    },
+    {
+      "name" : ["pogoda.yandex.ua"], 
+      "acc_t" : {"src" : "pogoda.yandex.ua", "val" : 0.93}, 
+      "acc_h" : {"src" : "pogoda.yandex.ua", "val" : 0.75}, 
+      "acc_w" : {"src" : "pogoda.yandex.ua", "val" : 0.92}
+    },
+    {
+      "name" : ["meteo.gov.ua"], 
+      "acc_t" : {"src" : "meteo.gov.ua", "val" : 0.75}, 
+      "acc_h" : {"src" : "meteo.gov.ua", "val" : 0.26}, 
+      "acc_w" : {"src" : "meteo.gov.ua", "val" : 0.3}
+    },
+    {
+      "name" : ["WorldWeatherOnline.com"], 
+      "acc_t" : {"src" : "WorldWeatherOnline.com", "val" : 0.84}, 
+      "acc_h" : {"src" : "WorldWeatherOnline.com", "val" : 0.71}, 
+      "acc_w" : {"src" : "WorldWeatherOnline.com", "val" : 0.68}
+    },
+    {
+      "name" : ["intellicast.com"], 
+      "acc_t" : {"src" : "intellicast.com", "val" : 0.7}, 
+      "acc_h" : {"src" : "intellicast.com", "val" : 0.23}, 
+      "acc_w" : {"src" : "intellicast.com", "val" : 0.3}
+    },
+    {
+      "name" : ["bbc.co.uk"], 
+      "acc_t" : {"src" : "bbc.co.uk", "val" : 0.95}, 
+      "acc_h" : {"src" : "bbc.co.uk", "val" : 0.78}, 
+      "acc_w" : {"src" : "bbc.co.uk", "val" : 0.8}
+    },
+    {
+      "name" : ["weather.com"], 
+      "acc_t" : {"src" : "weather.com", "val" : 0.82}, 
+      "acc_h" : {"src" : "weather.com", "val" : 0.6}, 
+      "acc_w" : {"src" : "weather.com", "val" : 0.63}
+    },
+    {
+      "name" : ["accuweather.com"], 
+      "acc_t" : {"src" : "accuweather.com", "val" : 0.98}, 
+      "acc_h" : {"src" : "accuweather.com", "val" : 0.55}, 
+      "acc_w" : {"src" : "accuweather.com", "val" : 0.6}
+    }
+  ]
+}
