@@ -4,7 +4,12 @@ import model
 def get_graph(fig):
 	return dcc.Graph(
 		id='example-graph',
-		figure=fig
+		figure=fig,
+		animate=True,
+        animation_options=dict(
+            transition={'duration' : 500},
+            redraw=False
+        )
 	)
 
 if __name__ == '__main__':

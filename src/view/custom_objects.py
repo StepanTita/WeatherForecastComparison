@@ -150,6 +150,7 @@ def get_scale_traces(data):
         ),
         opacity=0.8,
 		text=data['weights'],
+		name="Flows"
 		#hoverinfo='text'#['x', 'y', 'z', 'text', 'name']
 	)
 
@@ -188,18 +189,30 @@ def create_slider():
         step=1,
         marks={i : "Step {}".format(i) for i in range(11)},
         disabled=False
-    ), style={'width': '100%', 'margin-bottom' : '50px'}, id='slider-container')
+    ), style={'width': '100%', 'margin-bottom' : '30px', 'font-size' : '18pt'}, id='slider-container')
 
 def create_dropdown():
-	return html.Div(dcc.Dropdown(
+	return html.Div(children=[dcc.Dropdown(
         id='drop-algos',
         options=[
             {'label': 'Prim', 'value': 'prim'},
             {'label': 'Stoer-Wagner', 'value': 'stw'},
             {'label': 'Preflow push', 'value': 'pfp'}
         ],
-        value='prim'
-    ), style={'width': '100%', 'margin-bottom' : '50px'})
+        value='prim',
+        style={'width': '45%', 'float' : 'left'}
+    ),
+    html.Button('Run', id='prim-btn', style={'width' : '150px', 'font-size' : '24pt'}),
+    dcc.Dropdown(
+        id='drop-data',
+        options=[
+            {'label': 'Forecasts', 'value': 'fore'},
+            {'label': 'Test 1', 'value': 'test1'},
+            {'label': 'Test2', 'value': 'test2'}
+        ],
+        value='Forecasts',
+        style={'width': '45%', 'float' : 'left'}
+    )], style={'width': '100%'})
 
 if __name__ == '__main__':
 	main()

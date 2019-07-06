@@ -13,3 +13,6 @@ def index(request):
 		forecasts = Forecast.objects.order_by('pub_date').filter(place="London")
 		context = {'forecast' : forecasts}
 		return render(request, "index.html", context)
+
+def visual(request):
+	return render(request, "contact.html")
