@@ -202,17 +202,8 @@ def create_dropdown():
         value='prim',
         style={'width': '45%', 'float' : 'left'}
     ),
-    html.Button('Run', id='prim-btn', style={'width' : '150px', 'font-size' : '24pt'}),
-    dcc.Dropdown(
-        id='drop-data',
-        options=[
-            {'label': 'Forecasts', 'value': 'fore'},
-            {'label': 'Test 1', 'value': 'test1'},
-            {'label': 'Test 2', 'value': 'test2'}
-        ],
-        value='Forecasts',
-        style={'width': '45%', 'float' : 'left'}
-    )], style={'width': '100%'})
+    html.Button('Run', id='prim-btn', style={'width' : '150px', 'font-size' : '24pt'})
+    ], style={'width': '100%'})
 
 if __name__ == '__main__':
 	main()

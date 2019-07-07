@@ -37,7 +37,7 @@ class GraphWeighted(object):
 			to = data['links'][i]['target']
 			self.adj_list[fr].append((to, data['links'][i]['value']))
 			self.adj_list[to].append((fr, data['links'][i]['value']))
-		print_list(self.adj_list)
+		#print_list(self.adj_list)
 
 	# def __init__(self, edges, nodes):
 	# 	super(GraphWeighted, self).__init__()
@@ -61,7 +61,7 @@ class GraphWeighted(object):
 	def sort_adj_list(self):
 		for edges in self.adj_list:
 			edges.sort(key=lambda x: x[1])
-		print_list(self.adj_list)
+		#print_list(self.adj_list)
 
 	def get_edges(self, v):
 		return self.adj_list[v]
@@ -73,7 +73,7 @@ class GraphWeighted(object):
 			for j, w in self.adj_list[i]:
 				adj_matrix[i][j] = w
 				adj_matrix[j][i] = w
-		print_matr(adj_matrix)
+		#print_matr(adj_matrix)
 		return adj_matrix
 
 	def get_capacities(self):
@@ -82,7 +82,7 @@ class GraphWeighted(object):
 		for i in range(count_nodes):
 			for j, w in self.adj_list[i]:
 				cap[i][j] += w
-		print_matr(cap)
+		#print_matr(cap)
 		return cap
 
 	def get_data(self):

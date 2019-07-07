@@ -11,7 +11,7 @@ def mincut(graph, vis):
 	best_cut = []
 	exist = [True] * count_nodes
 	for ph in range(count_nodes - 1):
-		print(best_cut)
+		#print(best_cut)
 		in_a = [False] * count_nodes
 		w = [0] * count_nodes
 		prev = -1

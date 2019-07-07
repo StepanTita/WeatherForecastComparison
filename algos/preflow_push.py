@@ -62,8 +62,8 @@ def preflow_push(graph, vis):
 		if cap[0][i] != 0:
 			flow += flows[0][i]
 
-	print("---------------------------------")
-	print_matr(flows)
+	#print("---------------------------------")
+	#print_matr(flows)
 	return max(flow, 0)
 
 def print_matr(lst):
