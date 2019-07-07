@@ -208,7 +208,7 @@ def create_dropdown():
         options=[
             {'label': 'Forecasts', 'value': 'fore'},
             {'label': 'Test 1', 'value': 'test1'},
-            {'label': 'Test2', 'value': 'test2'}
+            {'label': 'Test 2', 'value': 'test2'}
         ],
         value='Forecasts',
         style={'width': '45%', 'float' : 'left'}

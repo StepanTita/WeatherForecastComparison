@@ -21,7 +21,7 @@ app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
 prev_test = "Ok"
 
-data = ld.read_data("../data/test.json")
+data = ld.read_data("../data/forecasts.json")
 my_graph = alg_graph.GraphWeighted(data)
 vis = drw.GraphVisual(my_graph)
 
@@ -105,4 +105,4 @@ def update_output(n_clicks, value):
 	#return view_objs.create_slider()
 
 if __name__ == '__main__':
-	app.run_server(debug=True)
+	app.run_server(debug=False)
