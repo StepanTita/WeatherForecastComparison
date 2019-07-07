@@ -14,7 +14,7 @@ import statistics as st
 def get_biases(pred, real):
 	return [pr - rl for pr, rl in zip(pred, real)]
 
-def read_data(path="../../data/weatherHistory.csv"):
+def read_data(path="../data/weatherHistory.csv"):
 	df = pd.read_csv(path)
 	temp_df = df.drop(axis=1, labels=['Summary', 'Humidity', 'Wind Speed (km/h)', 'Wind Bearing (degrees)', 'Visibility (km)', 'Loud Cover', 'Pressure (millibars)', 'Daily Summary', 'Precip Type'])
 	temp_df = temp_df.rename(columns={"Temperature (C)": "real", "Apparent Temperature (C)": "predicted"})#'Formatted Date', 
@@ -130,7 +130,7 @@ def draw_biases(data, biases):
                   	type='date'
               	))
 	
-	plotly.offline.plot(fig, filename='../../graphs/bias-graph')
+	plotly.offline.plot(fig, filename='../graphs/bias-graph')
 
 def main():
 	THRESH = 5

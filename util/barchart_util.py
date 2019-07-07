@@ -23,7 +23,7 @@ def main():
 
 	
 	fig = go.Figure(data=[trace], layout=layout)
-	plotly.offline.plot(fig, filename='../../graphs/pie_chart')
+	plotly.offline.plot(fig, filename='../graphs/pie_chart')
 
 if __name__ == '__main__':
 	main()

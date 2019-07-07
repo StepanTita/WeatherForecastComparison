@@ -20,7 +20,7 @@ external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 server = app.server
 
-data = ld.read_data("../data/forecasts.json")
+data = ld.read_data("data/forecasts.json")
 my_graph = alg_graph.GraphWeighted(data)
 vis = drw.GraphVisual(my_graph)
 

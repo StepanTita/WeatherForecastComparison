@@ -97,7 +97,7 @@ def my_print(tree):
 
 
 def test_fitch():
-	data = m_ld.read_data("../../data/sources.json")
+	data = m_ld.read_data("../data/sources.json")
 	tree = fitch_tree(data)
 	#print_tree(tree)
 	my_print(tree)
