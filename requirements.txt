@@ -74,3 +74,4 @@ wcwidth==0.1.7
 Werkzeug==0.15.4
 wrapt==1.11.1
 zipp==0.5.1
+python-igraph==0.7.1.post6
