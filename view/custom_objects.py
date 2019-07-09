@@ -200,9 +200,9 @@ def create_dropdown():
             {'label': 'Preflow push', 'value': 'pfp'}
         ],
         value='prim',
-        style={'width': '45%', 'float' : 'left'}
+        style={'width': '500px', 'float' : 'left'}
     ),
-    html.Button('Run', id='prim-btn', style={'width' : '150px', 'font-size' : '24pt'})
+    html.Button('Run', id='prim-btn', style={'width' : '15%', 'font-size' : '24pt'})
     ], style={'width': '100%'})
 
 if __name__ == '__main__':
