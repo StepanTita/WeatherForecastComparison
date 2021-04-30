@@ -68,7 +68,7 @@ termcolor==1.1.0
 tf-estimator-nightly==1.14.0.dev2019061301
 tf-nightly==1.14.1.dev20190607
 traitlets==4.3.2
-urllib3==1.25.3
+urllib3==1.25.8
 waitress==1.3.0
 wcwidth==0.1.7
 Werkzeug==0.15.4
