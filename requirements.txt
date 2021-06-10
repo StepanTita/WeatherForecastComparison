@@ -17,7 +17,7 @@ dash-html-components==1.0.0
 dash-renderer==1.0.0
 dash-table==4.0.0
 decorator==4.4.0
-Django==2.2.3
+Django==2.2.24
 Flask==1.0.3
 Flask-Compress==1.4.0
 gast==0.2.2
