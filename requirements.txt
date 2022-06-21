@@ -39,7 +39,7 @@ MarkupSafe==1.1.1
 mock==3.0.5
 more-itertools==7.1.0
 nbformat==4.4.0
-numpy==1.14.5
+numpy==1.22.0
 opencv-python==4.1.0.25
 ordered-set==3.1.1
 packaging==19.0
